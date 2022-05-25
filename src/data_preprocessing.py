@@ -31,6 +31,26 @@ def preprocess_offer_data(transcript_df, portfolio_df):
 
     return offers_delivered_df
 
+def get_offer_completion_per_customer(offers_delivered_df):
+
+    df = offers_delivered_df[
+        (offers_delivered_df.event.isin(['offer_viewed', 'offer_completed'])) &
+        (offers_delivered_df.offer_type != 'informational')
+    ].copy()
+
+    df['completed_offer'] = (df.event == 'offer_completed')*1
+    grouped_df = df.groupby(['person', 'offer_type']).agg(
+        {'event':'count', 'completed_offer':'sum'}
+    ).reset_index()
+
+    pivot_df = grouped_df.pivot(
+        index='person',
+        columns='offer_type',
+        values='completed_offer'
+    ).fillna(0).reset_index()
+
+    return pivot_df
+
 def get_customer_transactions_per_offer_type(transcript_df, offers_delivered_df):
 
     transactions_df = transcript_df[
