@@ -3,6 +3,21 @@ import pandas as pd
 import numpy as np
 
 def preprocess_offer_data(transcript_df, portfolio_df):
+    """
+    Function to preprocess the transcript dataset to combine
+    it with the portfolio dataset and add more informations
+    to it.
+
+    Args:
+        transcript_df (Pandas DataFrame): dataset with all
+        offers sent to a customer
+        portfolio_df (Pandas DataFrame): dataset with all
+        different offers that was sent once.
+
+    Returns:
+        offers_delivered_df (Pandas DataFrame): dataset
+        with information of both dataset given as input.
+    """
 
     offers_delivered_df = transcript_df[
         transcript_df.event != 'transaction'
@@ -32,6 +47,19 @@ def preprocess_offer_data(transcript_df, portfolio_df):
     return offers_delivered_df
 
 def get_offer_completion_per_customer(offers_delivered_df):
+    """
+    Function that calculate how many offers a given customer
+    completed per offer type.
+
+    Args:
+        offers_delivered_df (Pandas DataFrame): dataset
+        with all offers interactions for each customer.
+
+    Returns:
+        pivot_df (Pandas DataFrame): DataFrame where every 
+        row is a customer and every column is the number of
+        completitons for each offer type.
+    """
 
     df = offers_delivered_df[
         (offers_delivered_df.event.isin(['offer_viewed', 'offer_completed'])) &
@@ -52,7 +80,23 @@ def get_offer_completion_per_customer(offers_delivered_df):
     return pivot_df
 
 def get_customer_transactions_per_offer_type(transcript_df, offers_delivered_df):
+    """
+    Function that calculate how many purchases a customer made during
+    the period that an offer is valid. It only considers offers that 
+    the customer saw.
 
+    Args:
+        transcript_df (Pandas DataFrame): Dataset with all offer 
+        interactions and transactions made by a customer.
+        offers_delivered_df (Pandas DataFrame): Dataset with all
+        offers interactions with their expiration date.
+
+    Returns:
+        all_transactions_df (Pandas DataFrame): Dataframe with all
+        purchases made by the customers during or not the offer valid
+        period.
+    """
+    
     transactions_df = transcript_df[
         transcript_df.event == 'transaction'
     ].copy()
