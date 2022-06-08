@@ -99,7 +99,7 @@ Also, the main insights of the project can be found in the blog post at the [Mai
 
 ## Main Results<a name="results"></a>
 
-The main insights found in the exploratory analysis and the discussion comparing Machine Learning models used in this project are available this [blog post].
+The main insights found in the exploratory analysis and the discussion comparing Machine Learning models used in this project are available this [blog post](https://medium.com/@andredesouzag/which-customers-should-starbucks-offer-discounts-to-797015b6d2aa).
 
 ## Licensing, Authors, Acknowledgements<a name="licensing"></a>
 
